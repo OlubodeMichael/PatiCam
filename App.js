@@ -1,20 +1,49 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from '@react-navigation/native';
+import OnboardingOverView from './screens/Onboarding';
+import MainScreen from './screens/MainScreen';
+
+const Stack = createNativeStackNavigator();
+const BottomTabs = createBottomTabNavigator();
+
+function AppOverview() {
+  return (
+    <BottomTabs.Navigator>
+      <BottomTabs.Screen name="Screen1" component={Screen1} />
+      <BottomTabs.Screen name="Screen2" component={Screen2} />
+      <BottomTabs.Screen name="Screen3" component={Screen3} />
+    </BottomTabs.Navigator>
+  );
+}
+
+
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+        <StatusBar style="light" />
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen 
+              name="OnboardingScreen" 
+              component={OnboardingOverView} 
+              options={{
+                headerShown: false
+              }}
+            />
+            <Stack.Screen name="MainScreen" component={MainScreen} options={{
+              headerShown: false,
+            }}/>
+          </Stack.Navigator>
+        </NavigationContainer>
+
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+ 
 });
