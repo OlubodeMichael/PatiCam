@@ -13,7 +13,7 @@ export function OnboardingScreen1({ navigation }) {
           <Text style={styles.text}>Turn your events into vibrant albums filled with photos and videos from all your guests.</Text>
         </View>
         <View style={styles.buttonContainer}>
-          <Button title="Continue" onPress={() => navigation.navigate('scene2')} />
+          <Button title="Continue" onPress={() => navigation.navigate('scene2')} border="roundedXl" type="primary"/>
         </View>
       </View>
     );
@@ -27,7 +27,7 @@ export function OnboardingScreen2({ navigation }) {
             <Text style={styles.text}>Guests can easily contribute their favorite moments in real-time with a simple QR code scan.</Text>
         </View>
         <View style={styles.buttonContainer}>
-            <Button title="Continue" onPress={() => navigation.navigate('MainScreen')} />
+            <Button title="Continue" onPress={() => navigation.navigate('MainScreen')} border="roundedXl" type="primary"/>
         </View>
       </View>
     );
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
       justifyContent: 'flex-start',
       alignItems: 'center',
       marginTop: 100,
+      width: '200'
     },
     buttonContainer: {
       justifyContent: 'flex-end',
@@ -57,12 +58,15 @@ const styles = StyleSheet.create({
       width: 300,
       textAlign: 'center',
       marginBottom: 20,
+      fontFamily: 'new-york'
     },
     text: {
       fontSize: 16,
       color: '#fff',
       textAlign: 'center',
       marginBottom: 40,
+      fontFamily: 'inter',
+      
     },
 });
 

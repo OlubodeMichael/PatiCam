@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from '@react-navigation/native';
+import { useFonts } from 'expo-font';
 import OnboardingOverView from './screens/Onboarding';
 import MainScreen from './screens/MainScreen';
 
@@ -22,6 +23,9 @@ function AppOverview() {
 
 
 export default function App() {
+  useFonts({
+    'new-york': require('./assets/fonts/NewYork.otf')
+  })
   return (
     <>
         <StatusBar style="light" />

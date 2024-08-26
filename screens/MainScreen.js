@@ -11,8 +11,8 @@ function MainScreen() {
             <View style={styles.contentContainer}>
                 <Text style={styles.title}>Capture the Magic of Every Moment!</Text>
                 <View style={styles.buttonContainer}>
-                    <Button title="Sign Up" />
-                    <Button title="Login" />
+                    <Button title="Sign Up" border="round" type="primary"/>
+                    <Button title="Login" border="round"/>
                 </View>
             </View>
         </View>
@@ -45,9 +45,11 @@ const styles = StyleSheet.create({
     title: {
         color: 'white',
         fontSize: 32,
-        fontWeight: 'bold',
+        fontWeight: '700',
         textAlign: 'center',
         marginBottom: 20,
+        fontFamily: 'new-york',
+        width: 300,
     },
     buttonContainer: {
         alignItems: 'center',
