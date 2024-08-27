@@ -2,7 +2,7 @@ import { Text, View, StyleSheet, Image } from "react-native";
 import Button from "../components/UI/Button";
 import GridImage from "../constants/Image/GridImage.png";  // Adjust the import if necessary
 
-function MainScreen() {
+function MainScreen({ navigation}) {
     return (
         <View style={styles.container}>
             <View style={styles.gridImageContainer}>
@@ -11,8 +11,8 @@ function MainScreen() {
             <View style={styles.contentContainer}>
                 <Text style={styles.title}>Capture the Magic of Every Moment!</Text>
                 <View style={styles.buttonContainer}>
-                    <Button title="Sign Up" border="round" type="primary"/>
-                    <Button title="Login" border="round"/>
+                    <Button title="Sign Up" border="round" type="primary" onPress={() => {navigation.navigate("AuthOverview")}}/>
+                    <Button title="Login" border="round" onPress={() => {navigation.navigate("AuthOverview")}}/>
                 </View>
             </View>
         </View>
