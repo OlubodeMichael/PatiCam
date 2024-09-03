@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     },
     title: {
       fontSize: 32,
-      fontWeight: 'bold',
+      fontWeight: 'condensed',
       color: '#fff',
       width: 300,
       textAlign: 'center',
@@ -61,12 +61,12 @@ const styles = StyleSheet.create({
       fontFamily: 'new-york'
     },
     text: {
-      fontSize: 16,
+      fontSize: 18,
       color: '#fff',
       textAlign: 'center',
       marginBottom: 40,
       fontFamily: 'inter',
-      
+      width: 350,
     },
 });
 

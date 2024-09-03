@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         margin: 20
     },
     text: {
-        fontSize: 20,
-        fontWeight: 'medium'
+        fontSize: 30,
+        fontWeight: 'normal'
     }
 })
