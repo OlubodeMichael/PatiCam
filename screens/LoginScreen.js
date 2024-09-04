@@ -1,40 +1,11 @@
 import { View, Text } from "react-native"
 import { useState } from "react"
-import Title from "../components/Title";
-import Input from "../components/ManageForm/Input";
-import Button from "../components/UI/Button";
+import LoginAuthForm from "../components/ManageForm/LoginAuthForm";
 
-function LoginScreen() {
-    const [enteredEmail, setEnteredEmail] = useState('');
-    const [enteredPassword, setEnteredPassword] = useState('');
 
+function LoginScreen({credentialsInvalid}) {
     return (
-        <View>
-            <Title title="Sign in to Pati Cam" />
-            <View>
-                <Input 
-                    label="Email Address"
-                    textInputConfig={{
-                        placeholder: "Your email",
-                        value: enteredEmail,
-                        onChangeText: (text) => {
-                            setEnteredEmail(text);
-                        }
-                    }}
-                />
-                <Input 
-                    label="Password"
-                    textInputConfig={{
-                        placeholder: "Your password",
-                        secureTextEntry: true,
-                        value: enteredPassword,
-                        onChangeText: (text) => {
-                            setEnteredPassword(text);
-                        }
-                    }}
-                />
-            </View>
-        </View>
+        <LoginAuthForm />
     )
 }
 

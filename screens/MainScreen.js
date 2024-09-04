@@ -12,7 +12,15 @@ function MainScreen({ navigation}) {
                 <Text style={styles.title}>Capture the Magic of Every Moment!</Text>
                 <View style={styles.buttonContainer}>
                     <Button title="Sign Up" border="round" type="primary" onPress={() => {navigation.navigate("AuthOverview")}}/>
-                    <Button title="Login" border="round" onPress={() => {navigation.navigate("AuthOverview")}}/>
+                    <Button 
+                        title="Login" 
+                        border="round" 
+                        onPress={() => {
+                            navigation.navigate("AuthOverview", {
+                                screen: "LoginScreen"
+                            });
+                        }}
+                    />
                 </View>
             </View>
         </View>
