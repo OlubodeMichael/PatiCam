@@ -1,82 +1,78 @@
-import { Pressable, View, Text, StyleSheet } from "react-native";
+import { Pressable, Text, StyleSheet } from "react-native";
 
-function Button({ title, onPress, border, type }) {
+function Button({ 
+  title, 
+  onPress, 
+  type = 'primary', 
+  size = 'medium', 
+  style, 
+  textStyle 
+}) {
+  const buttonStyles = [styles.button, styles[`${type}Button`], styles[`${size}Button`], style];
+  const textStyles = [styles.buttonText, styles[`${type}ButtonText`], styles[`${size}Text`], textStyle];
 
-  const extraStyle = [styles.button]
-
- 
-
-  if (border === 'round') {
-    extraStyle.push(styles.roundButton)
-  }
-
-  if (border === 'rounded') {
-    extraStyle.push(styles.roundedButton)
-  }
-
-  if (border === 'roundedXl') {
-    extraStyle.push(styles.roundedXlButton)
-  }
-
-  if (type === 'primary') {
-    extraStyle.push(styles.primaryButton)
-  }
-
-  if (type === 'secondary') {
-    extraStyle.push(styles.secondaryButton)
-  }
-
-    return (
-        <Pressable onPress={onPress} style={({ pressed }) => [
-          ...extraStyle,  
-            pressed ? styles.buttonPressed : null
-        ]}>
-            <View>
-                <Text style={[styles.buttonText, type === 'primary' ? styles.primaryButtonText : styles.secondaryButtonText]}>{title}</Text>
-            </View>
-        </Pressable>
-    );
+  return (
+    <Pressable 
+      onPress={onPress} 
+      style={({ pressed }) => [
+        ...buttonStyles,
+        pressed ? styles.buttonPressed : null
+      ]}
+    >
+      <Text style={textStyles}>{title}</Text>
+    </Pressable>
+  );
 }
 
 export default Button;
 
 const styles = StyleSheet.create({
   button: {
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    width: 300,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 16
+    marginBottom: 16,
+    borderRadius: 20,
   },
   buttonText: { 
-    fontSize: 16,
     fontWeight: 'bold',
   },
   buttonPressed: {
-    opacity: 0.7, 
-  },
-  roundButton: {
-    borderRadius: 16,
-  }, 
-  roundedButton: {
-    borderRadius: 20,
-  },
-  roundedXlButton: {
-    borderRadius: 24,
+    opacity: 0.7,
   },
   primaryButton: {
-    backgroundColor: '#fff', 
-    color: '#3269F0',
+    backgroundColor: 'white',
   },
   secondaryButton: {
-    color: '#fff',
+    backgroundColor: '#3269F0',
   },
   primaryButtonText: {
     color: '#3269F0',
   },
   secondaryButtonText: {
-    color: '#fff',
-  }
-
+    color: 'white',
+  },
+  smallButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    width: 150,
+  },
+  mediumButton: {
+    paddingVertical: 12,
+    paddingHorizontal: 18,
+    width: 250,
+  },
+  largeButton: {
+    paddingVertical: 18,
+    paddingHorizontal: 30,
+    width: 350,
+  },
+  smallText: {
+    fontSize: 14,
+  },
+  mediumText: {
+    fontSize: 16,
+  },
+  largeText: {
+    fontSize: 18,
+  },
 });

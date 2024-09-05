@@ -15,6 +15,7 @@ function MainScreen({ navigation}) {
                     <Button 
                         title="Login" 
                         border="round" 
+                        type="secondary"
                         onPress={() => {
                             navigation.navigate("AuthOverview", {
                                 screen: "LoginScreen"
