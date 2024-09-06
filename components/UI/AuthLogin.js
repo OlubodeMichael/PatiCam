@@ -4,16 +4,19 @@ import Button from "./Button";
 import { GlobalStyles } from "../../constants/styles";
 
 function AuthLogin({ onPress, title }) {
+    const handleSocialLogin = (text) => {
+        console.log(text);
+    }
     return (
         <View style={styles.container}>
             <View style={styles.logoContainer}>
-                <Pressable style={styles.iconWrapper}>
+                <Pressable style={styles.iconWrapper} onPress={() => handleSocialLogin("google")}>
                     <Ionicons name="logo-google" size={45} color="green" />
                 </Pressable>
-                <Pressable style={styles.iconWrapper}>
-                    <Ionicons name="logo-facebook" size={45} color="blue" />
+                <Pressable style={styles.iconWrapper} onPress={() => handleSocialLogin("facebook")}>
+                    <Ionicons name="logo-facebook" size={45} color={GlobalStyles.colors.primary500} />
                 </Pressable>
-                <Pressable style={styles.iconWrapper}>
+                <Pressable style={styles.iconWrapper} onPress={() => handleSocialLogin("apple")}>
                     <Ionicons name="logo-apple" size={45} color="black" />
                 </Pressable>
             </View>

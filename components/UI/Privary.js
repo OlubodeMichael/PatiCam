@@ -2,10 +2,10 @@ import { View, Text, StyleSheet, Switch} from "react-native";
 import { useState } from "react"
 import { GlobalStyles } from "../../constants/styles";
 
-function Privacy() {
+function Privacy({onAgree}) {
     const [isAgreed, setIsAgreed] = useState(false);
     const toggleSwitch = () => setIsAgreed(previousState => !previousState);
-
+    onAgree(isAgreed)
     return (
         <View style={styles.privacyContainer}>
             <View style={styles.termsContainer}>
@@ -44,6 +44,6 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
     link: {
-        color: GlobalStyles.colors.primary400,
+        color: GlobalStyles.colors.primary500,
     },
 })

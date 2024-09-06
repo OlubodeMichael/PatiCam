@@ -1,25 +1,40 @@
-import { View, Text, StyleSheet, Switch, ScrollView } from "react-native"
-import { useState } from "react"
-import { GlobalStyles } from "../constants/styles";
-import SignInForm from "../components/ManageForm/SignInForm"
-import Privacy from "../components/UI/Privary";
-import AuthLogin from "../components/UI/AuthLogin";
+import { StyleSheet, View, Alert } from "react-native";
+import { useState } from "react";
+import SignInForm from "../components/ManageForm/SignInForm";
+import { createUser } from "../Utils/auth";
+import LoadingOverlay from "../components/UI/LoadingOverlay";
 
 function SignInScreen() {
-    
+    const [isAuthenticating, setIsAuthenticating] = useState(false);
+
+    const submitHandler = async ({ email, password }) => {
+        setIsAuthenticating(true);
+        try {
+            await createUser(email, password);
+        } catch (error) {
+            Alert.alert("Authentication failed", "Could not create user, please try again later.");
+            setIsAuthenticating(false);
+            return;
+        }
+        setIsAuthenticating(false);
+    };
+
+    if (isAuthenticating) {
+        return <LoadingOverlay message="Creating user..." />;
+    }
+
     return (
-        <SignInForm />         
-    )
+        <View style={styles.container}>
+            <SignInForm onAuthenticate={submitHandler} />
+        </View>
+    );
 }
 
-export default SignInScreen
+export default SignInScreen;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignContent: "space-between"
+        justifyContent: "center", // Center the content vertically
     },
-    signUpContainer: {
-        
-    }
-})
+});

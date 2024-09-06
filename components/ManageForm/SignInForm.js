@@ -5,7 +5,8 @@ import Input from "./Input";
 import Privacy from "../UI/Privary"; // Fixed typo: "Privary" to "Privacy"
 import AuthLogin from "../UI/AuthLogin";
 
-function SignInForm() {
+function SignInForm({onAuthenticate}) {
+    let agree;
     const [firstName, setFirstName] = useState({
         value: '',
         isInvalid: false
@@ -27,6 +28,9 @@ function SignInForm() {
         isInvalid: false
     });
 
+    const handlePrivacy = (isAgree) => {
+        agree = isAgree
+    }
     const submit = () => {
         // Trim the values
         const trimmedEmail = email.value.trim();
@@ -62,13 +66,14 @@ function SignInForm() {
             isInvalid: !passwordsAreEqual
         }));
 
-        if (!emailIsValid || !passwordIsValid || !passwordsAreEqual || !firstNameIsValid || !lastNameIsValid) {
+        if (!emailIsValid || !passwordIsValid || !passwordsAreEqual || !firstNameIsValid || !lastNameIsValid || !agree) {
             Alert.alert('Invalid input', 'Please check your entered credentials.');
             return;
         }
 
         // If everything is valid, proceed
-        console.log(`${firstName.value} ${lastName.value} ${trimmedEmail} ${trimmedPassword} ${trimmedPasswordConfirmation}`);
+        //console.log(`${firstName.value} ${lastName.value} ${trimmedEmail} ${trimmedPassword} ${trimmedPasswordConfirmation}`);
+        onAuthenticate(email, password)
     };
 
     return (
@@ -134,7 +139,7 @@ function SignInForm() {
                     />
                     <Input
                         label="Confirm Password"
-                        isInvalid={passwordConfirmation.isInvalid}
+                        isInvalid={password.isInvalid}
                         textInputConfig={{
                             placeholder: "Confirm password",
                             secureTextEntry: true,
@@ -147,7 +152,7 @@ function SignInForm() {
                         }}
                     />
                 </View>
-                <Privacy />
+                <Privacy onAgree={handlePrivacy}/>
                 <AuthLogin onPress={submit} style={styles.authLogin} title="Sign Up"/>
             </ScrollView>
             
