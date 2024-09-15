@@ -18,6 +18,7 @@ function Privacy({onAgree}) {
                         <Switch 
                             value={isAgreed} 
                             onValueChange={toggleSwitch} 
+                            trackColor={{ false: 'white', true: GlobalStyles.colors.primary500 }}
                         />
             </View>
         </View>
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         padding: 10,
         borderColor: 'grey',
-        borderWidth: 1
+        borderTopWidth: 1
     },
     termsContainer: {
         flexDirection: 'row',

@@ -4,8 +4,11 @@ import Title from "../UI/Title";
 import Input from "./Input";
 import Privacy from "../UI/Privary"; // Fixed typo: "Privary" to "Privacy"
 import AuthLogin from "../UI/AuthLogin";
+import LoadingOverlay from "../UI/LoadingOverlay";
 
-function SignInForm({onAuthenticate}) {
+
+function SignInForm({ onAuthenticate }) {
+    const [isAuthenticating, setIsAuthenticating] = useState(false);
     let agree;
     const [firstName, setFirstName] = useState({
         value: '',
@@ -31,6 +34,7 @@ function SignInForm({onAuthenticate}) {
     const handlePrivacy = (isAgree) => {
         agree = isAgree
     }
+
     const submit = () => {
         // Trim the values
         const trimmedEmail = email.value.trim();
@@ -71,11 +75,13 @@ function SignInForm({onAuthenticate}) {
             return;
         }
 
-        // If everything is valid, proceed
-        //console.log(`${firstName.value} ${lastName.value} ${trimmedEmail} ${trimmedPassword} ${trimmedPasswordConfirmation}`);
-        onAuthenticate(email, password)
+        onAuthenticate({ email: trimmedEmail, password: trimmedPassword })
     };
 
+    if (isAuthenticating) {
+        return <LoadingOverlay message="Creating user..." />;
+    }
+    
     return (
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>

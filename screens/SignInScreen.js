@@ -1,22 +1,27 @@
 import { StyleSheet, View, Alert } from "react-native";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import SignInForm from "../components/ManageForm/SignInForm";
 import { createUser } from "../Utils/auth";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
+import { AuthContext } from "../store/auth-context";
 
 function SignInScreen() {
     const [isAuthenticating, setIsAuthenticating] = useState(false);
+    const AuthCtx = useContext(AuthContext)
 
     const submitHandler = async ({ email, password }) => {
         setIsAuthenticating(true);
         try {
-            await createUser(email, password);
-        } catch (error) {
-            Alert.alert("Authentication failed", "Could not create user, please try again later.");
+            const token = await createUser(email, password);
+            AuthCtx.authenticate(token)
+        } catch (e) {
+            Alert.alert(
+                'Authentication failed',
+                'Could not create user, please check your input and try again'
+            )
             setIsAuthenticating(false);
-            return;
         }
-        setIsAuthenticating(false);
+        
     };
 
     if (isAuthenticating) {
@@ -25,7 +30,7 @@ function SignInScreen() {
 
     return (
         <View style={styles.container}>
-            <SignInForm onAuthenticate={submitHandler} />
+            <SignInForm  onAuthenticate={submitHandler}/>
         </View>
     );
 }

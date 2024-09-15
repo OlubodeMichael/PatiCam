@@ -42,6 +42,8 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         padding: 20,
         justifyContent: 'center', // Space between icons and button
+        borderColor: 'grey',
+        borderTopWidth: 1
     },
     logoContainer: {
         flexDirection: 'row',
