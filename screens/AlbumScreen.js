@@ -1,4 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
+import QRcode from "../components/UI/QRcode";
+
 function AlbumScreen() {
     return (
         <View style={styles.container}>
@@ -14,6 +16,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'white'
     },
     text: {
         fontWeight: 'bold',

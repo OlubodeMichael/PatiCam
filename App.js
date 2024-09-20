@@ -1,7 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import {  TouchableOpacity, View, Text } from 'react-native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-//import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from 'react-native-vector-icons';
 import { GlobalStyles } from './constants/styles';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -10,7 +9,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { useContext, useState, useEffect } from 'react'
 import OnboardingOverView from './screens/Onboarding';
-import AppLoading from 'expo-app-loading';
 import MainScreen from './screens/MainScreen';
 import LoadingOverlay from './components/UI/LoadingOverlay';
 import LoginScreen from './screens/LoginScreen';
@@ -18,6 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import SignInScreen from './screens/SignInScreen';
 import HomeScreen from './screens/HomeScreen';
 import AlbumScreen from './screens/AlbumScreen';
+import AddScreen from './screens/AddScreen';
 import SettingScreen from './screens/Settings';
 import AuthContextProvider, { AuthContext } from './store/auth-context';
 
@@ -30,8 +29,12 @@ const Tab = createMaterialTopTabNavigator();
 function HomeOverview() {
   return (
     <BottomTabs.Navigator 
-      barStyle={{ backgroundColor: GlobalStyles.colors.primary500 }}
-      inactiveColor="white"
+      barStyle={{ 
+        backgroundColor: 'white',
+        borderTopWidth: 0.2, // Set the border for the top of the tab bar
+        borderTopColor: 'grey',
+        
+      }}
     >
       <BottomTabs.Screen 
         name="Album" 
@@ -77,6 +80,15 @@ function AuthenticatedStack() {
       <Stack.Screen name="Welcome" component={HomeOverview} options={{
         headerShown: false
       }}/>
+      <Stack.Screen 
+            name="AddScreen"
+            component={AddScreen}
+            options={{
+              presentation: 'modal',
+              headerShown: false,
+
+            }}
+          />
     </Stack.Navigator>
   )
 }
@@ -123,6 +135,7 @@ function AuthStack() {
               headerShown: false,
             }}
           />
+          
           <Stack.Screen 
             name="AuthOverview" 
             component={AuthOverview} 
