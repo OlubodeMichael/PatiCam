@@ -1,7 +1,12 @@
 import { View, Text, StyleSheet } from "react-native";
-import QRcode from "../components/UI/QRcode";
+//import { getAuth } from "firebase/auth";
+//import QRcode from "../components/UI/QRcode";
 
 function AlbumScreen() {
+    //const auth = getAuth()
+    //const user = auth.currentUser
+
+    //console.log(user.uid)
     return (
         <View style={styles.container}>
             <Text style={styles.text}>No album yet</Text>

@@ -2,7 +2,6 @@ import { StatusBar } from 'expo-status-bar';
 import {  TouchableOpacity, View, Text } from 'react-native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from 'react-native-vector-icons';
-import { GlobalStyles } from './constants/styles';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native';
@@ -29,6 +28,7 @@ const Tab = createMaterialTopTabNavigator();
 function HomeOverview() {
   return (
     <BottomTabs.Navigator 
+      initialRouteName="Home"
       barStyle={{ 
         backgroundColor: 'white',
         borderTopWidth: 0.2, // Set the border for the top of the tab bar

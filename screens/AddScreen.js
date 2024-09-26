@@ -17,7 +17,5 @@ const styles = StyleSheet.create({
         backgroundColor: GlobalStyles.colors.primary200,
         flex: 1,
         paddingTop: 40
-        //justifyContent: 'center',
-        //alignItems: 'center',
     }
 })
