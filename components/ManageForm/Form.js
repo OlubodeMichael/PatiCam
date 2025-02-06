@@ -1,64 +1,123 @@
-import { View, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet, Alert, ActivityIndicator } from "react-native";
 import Input from "./Input";
 import Button from "../UI/Button";
-import { useState } from "react"
+import { useState, useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { AlbumContext } from "../../store/album-context";
+import { AuthContext } from '../../store/auth-context';
+import { auth } from '../../Utils/firebase';
 
 function Form() {
   const navigation = useNavigation();
+  const albumCtx = useContext(AlbumContext);
+  const authCtx = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
+
   const [albumName, setAlbumName] = useState({
     value: '',
     isInvalid: false
   });
 
-
-  handleClose = () => {
+  const handleClose = () => {
     navigation.goBack();
-  }
+  };
 
-  handleSubmit = () => {
-    const albumNameIsValid = albumName.value.length > 6;
+  const handleSubmit = async () => {
+    const albumNameIsValid = albumName.value.trim().length >= 3;
+    
     setAlbumName((prev) => ({
-        ...prev,
-        isInvalid: !albumNameIsValid
-      }));
+      ...prev,
+      isInvalid: !albumNameIsValid
+    }));
 
     if (!albumNameIsValid) {
-        Alert.alert('Invalid input', 'Enter a valid album name')
-        return
+      Alert.alert(
+        'Invalid input', 
+        'Please enter an album name with at least 3 characters'
+      );
+      return;
     }
-    navigation.goBack()
+
+    setIsLoading(true);
+    try {
+      console.log('Auth state when creating album:', {
+        firebaseUser: auth.currentUser?.uid,
+        authCtxToken: authCtx.token,
+        isAuthenticated: authCtx.isAuthenticated
+      });
+
+      await albumCtx.addAlbum(albumName.value.trim());
+      Alert.alert(
+        'Success',
+        'Album created successfully!',
+        [
+          {
+            text: 'OK',
+            onPress: () => navigation.goBack()
+          }
+        ]
+      );
+    } catch (error) {
+      console.error('Error details:', error);
+      Alert.alert(
+        'Error',
+        error.message || 'Could not create album. Please try again later.'
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleTextChange = (text) => {
+    setAlbumName({
+      value: text,
+      isInvalid: false 
+    });
+  };
+
+  if (isLoading) {
+    return (
+      <View style={[styles.container, styles.loadingContainer]}>
+        <ActivityIndicator size="large" color="#3269F0" />
+      </View>
+    );
   }
+
   return (
     <View style={styles.container}>
+      <View style={styles.formContainer}>
         <View style={styles.inputContainer}>
-            <Input 
+          <Input 
             label="Album name"
             isInvalid={albumName.isInvalid}
             textInputConfig={{
-            placeholder: "Susan's Party",
-            value: albumName.value,
-            onChangeText: (text) => {
-                setAlbumName({
-                  value: text,
-                  isInvalid: false 
-                });
-              }
+              placeholder: "Enter album name",
+              value: albumName.value,
+              onChangeText: handleTextChange,
+              autoCapitalize: "words",
+              autoCorrect: false,
+              maxLength: 50,
             }}
-        />
-        <View style={styles.buttonContainer}>
-            <Button title="Add" style={{
-                width: 200
-            }}
+          />
+        </View>
+        
+        <View style={styles.buttonsContainer}>
+          <Button 
+            title="Add Album"
+            type="secondary"
+            size="medium"
             onPress={handleSubmit}
-            />
+          />
+          <Button 
+            title="Cancel"
+            type="primary"
+            size="medium"
+            onPress={() => navigation.goBack()}
+          />
         </View>
-        </View>
-      <View style={styles.buttonContainer}>
-        <Button title="Cancel" textStyle={{color: 'red'}} onPress={handleClose}/>
       </View>
     </View>
-  )
+  );
 }
 
 export default Form;
@@ -66,15 +125,23 @@ export default Form;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between', 
-    padding: 20, 
+    backgroundColor: '#fff',
+  },
+  loadingContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  formContainer: {
+    flex: 1,
+    padding: 24,
+    justifyContent: 'space-between',
   },
   inputContainer: {
-    //alignItems: 'center'
+    marginTop: 20,
   },
-  buttonContainer: {
-    justifyContent: 'flex-end',
+  buttonsContainer: {
+    gap: 12,
+    marginBottom: 20,
     alignItems: 'center',
-    marginBottom: 20, 
   },
 });

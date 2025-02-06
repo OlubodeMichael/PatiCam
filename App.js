@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import {  TouchableOpacity, View, Text } from 'react-native';
+import { TouchableOpacity, View, Text } from 'react-native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from 'react-native-vector-icons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -12,14 +12,15 @@ import MainScreen from './screens/MainScreen';
 import LoadingOverlay from './components/UI/LoadingOverlay';
 import LoginScreen from './screens/LoginScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import SignInScreen from './screens/SignInScreen';
+import SignUpScreen from './screens/SignUpScreen';
 import HomeScreen from './screens/HomeScreen';
 import AlbumScreen from './screens/AlbumScreen';
 import AddScreen from './screens/AddScreen';
 import SettingScreen from './screens/Settings';
-import AuthContextProvider, { AuthContext } from './store/auth-context';
-
-
+import { AuthContext, AuthContextProvider } from './store/auth-context';
+import { AlbumContextProvider } from './store/album-context';
+import { TabBar } from '@react-navigation/material-top-tabs';
+import { auth, database } from './Utils/firebase';
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createMaterialBottomTabNavigator();
@@ -29,44 +30,48 @@ function HomeOverview() {
   return (
     <BottomTabs.Navigator 
       initialRouteName="Home"
-      barStyle={{ 
+      activeColor="#3269F0"
+      inactiveColor="#888888"
+      shifting={false}
+      barStyle={{
         backgroundColor: 'white',
-        borderTopWidth: 0.2, // Set the border for the top of the tab bar
-        borderTopColor: 'grey',
-        
+        borderTopWidth: 1,
+        borderTopColor: '#E0E0E0',
+        elevation: 8,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: -3 },
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
       }}
     >
       <BottomTabs.Screen 
         name="Album" 
         component={AlbumScreen} 
         options={{
-          tabBarIcon: ({color}) => (
+          tabBarIcon: ({ color }) => (
             <Ionicons name="albums" size={24} color={color}/>
           ),
-          tabBarLabel: ''
+          tabBarLabel: 'Albums',
         }}
       />
       <BottomTabs.Screen 
         name="Home" 
         component={HomeScreen} 
         options={{
-          tabBarIcon: ({color}) => (
+          tabBarIcon: ({ color }) => (
             <Ionicons name="home" size={26} color={color}/>
           ),
-          tabBarLabel: ''
+          tabBarLabel: 'Home',
         }}
       />
       <BottomTabs.Screen 
         name="Setting" 
         component={SettingScreen} 
-        barStyle={{
-
-        }}
         options={{
-          tabBarIcon: ({color}) => (
+          tabBarIcon: ({ color }) => (
             <Ionicons name="settings" size={24} color={color}/>
           ),
-          tabBarLabel: ''
+          tabBarLabel: 'Settings',
         }}
       />
     </BottomTabs.Navigator>
@@ -94,14 +99,17 @@ function AuthenticatedStack() {
 }
 
 
+
 function AuthOverview() {
   return (
-    <Tab.Navigator options={{
-      headerShown: false
-    }}>
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Tab.Screen 
         name="SignInScreen" 
-        component={SignInScreen}
+        component={SignUpScreen}
         options={{
           tabBarLabel: 'Sign Up'
         }}
@@ -113,7 +121,6 @@ function AuthOverview() {
           tabBarLabel: 'Sign In'
         }}
       />
-      
     </Tab.Navigator>
   )
 }
@@ -155,7 +162,7 @@ function AuthStack() {
 }
 
 function Navigation() {
-  const authCtx = useContext(AuthContext)
+  const authCtx = useContext(AuthContext);
   return(
     <NavigationContainer>
         {!authCtx.isAuthenticated && <AuthStack />}
@@ -201,15 +208,16 @@ export default function App() {
   });
 
   if (!fontsLoaded) {
-    return <View><Text>Loading...</Text></View>; // Or a splash screen component
+    return <View><Text>Loading...</Text></View>;
   }
 
   return (
     <>
-      
       <StatusBar style="auto" />
       <AuthContextProvider>
-        <Root />
+        <AlbumContextProvider>
+          <Root />
+        </AlbumContextProvider>
       </AuthContextProvider>
     </>
   );

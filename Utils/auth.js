@@ -1,26 +1,45 @@
-import axios from "axios";
-import { API_KEY} from "@env"
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
 
+// Your web app's Firebase configuration
+const firebaseConfig = {
+    // Your config here
+};
 
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-async function authenticate(mode, email, password) {
-  const url = `https://identitytoolkit.googleapis.com/v1/accounts:${mode}?key=${API_KEY}`;
-
-  const response = await axios.post(url, {
-    email: email,
-    password: password,
-    returnSecureToken: true,
-  });
-
-  const token = response.data.idToken
-
-  return token;
+export async function createUser(email, password) {
+    try {
+        const response = await createUserWithEmailAndPassword(auth, email, password);
+        const token = await response.user.getIdToken();
+        
+        if (!token) {
+            throw new Error('Failed to get authentication token');
+        }
+        
+        return {
+            token: token,
+            userData: response.user
+        };
+    } catch (error) {
+        if (error.code === 'auth/email-already-in-use') {
+            // Handle this specific error differently if needed
+            console.log('Email already in use');
+        }
+        console.error('Create user error:', error);
+        throw error;
+    }
 }
 
-export function createUser(email, password) {
-  return authenticate('signUp', email, password);
-}
-
-export function login(email, password) {
-  return authenticate('signInWithPassword', email, password);
+export async function login(email, password) {
+    try {
+        const response = await signInWithEmailAndPassword(auth, email, password);
+        const token = await response.user.getIdToken();
+        return token;
+    } catch (error) {
+        console.error('Login error:', error);
+        throw error;
+    }
 }

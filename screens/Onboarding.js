@@ -34,40 +34,38 @@ export function OnboardingScreen2({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    container: {
+  container: {
       flex: 1,
       backgroundColor: '#3269F0',
       padding: 20,
-    },
-    contentContainer: {
+  },
+  contentContainer: {
       flex: 1,
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-      marginTop: 100,
-      width: '200'
-    },
-    buttonContainer: {
+      justifyContent: 'center', // Center vertically
+      alignItems: 'center',   // Center horizontally
+  },
+  buttonContainer: {
       justifyContent: 'flex-end',
       alignItems: 'center',
       paddingBottom: 40,
-    },
-    title: {
-      fontSize: 32,
-      fontWeight: 'condensed',
+  },
+  title: {
+      fontSize: 40,
+      fontWeight: 'bold', // Fixed invalid 'condensed' weight
       color: '#fff',
       width: 300,
       textAlign: 'center',
       marginBottom: 20,
-      fontFamily: 'new-york'
-    },
-    text: {
-      fontSize: 18,
+      fontFamily: 'new-york', // Ensure this font is loaded in your app
+  },
+  text: {
+      fontSize: 24,
       color: '#fff',
       textAlign: 'center',
       marginBottom: 40,
-      fontFamily: 'inter',
+      fontFamily: 'inter', // Ensure this font is loaded in your app
       width: 350,
-    },
+  },
 });
 
 

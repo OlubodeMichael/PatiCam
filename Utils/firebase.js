@@ -1,18 +1,35 @@
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { API_KEY} from "@env"
+import { initializeApp, getApps } from "firebase/app";
+import { initializeAuth, getReactNativePersistence, getAuth } from 'firebase/auth';
+import { getDatabase } from "firebase/database";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: API_KEY,
-  authDomain: "your-auth-domain",
+  apiKey: "AIzaSyD3VRTYNIjbONFc3B90ekwD8Dt-DetKiSA",
+  authDomain: "paticam.firebaseapp.com",
+  databaseURL: "https://paticam-default-rtdb.firebaseio.com",
   projectId: "paticam",
-  storageBucket: "your-storage-bucket",
-  messagingSenderId: "your-messaging-sender-id",
-  appId: "your-app-id",
+  storageBucket: "paticam.firebasestorage.app",
+  messagingSenderId: "615940930388",
+  appId: "1:615940930388:web:2c352bd0d27a87f2eae6c1"
 };
 
+// Initialize Firebase only if no apps exist
+let app;
+let auth;
+let database;
 
-const app = initializeApp(firebaseConfig);
+if (getApps().length === 0) {
+  app = initializeApp(firebaseConfig);
+  auth = initializeAuth(app, {
+    persistence: getReactNativePersistence(AsyncStorage)
+  });
+  database = getDatabase(app);
+} else {
+  app = getApps()[0];
+  auth = getAuth(app);
+  database = getDatabase(app);
+}
 
-
-export const auth = getAuth(app);
+export { auth, database };
+export default app;

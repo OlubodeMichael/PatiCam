@@ -1,6 +1,18 @@
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
-# dependencies
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Firebase config
+Utils/firebase.js
+firebase.js
+**/firebase.js
+
+# Node modules
 node_modules/
 
 # Expo
@@ -30,8 +42,6 @@ yarn-error.*
 
 # local env files
 .env*.local
-
-.env
 
 android
 ios
